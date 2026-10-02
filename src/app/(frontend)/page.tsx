@@ -60,20 +60,28 @@ export default async function Home() {
   const homepageLayout = layout
 
   return (
-    <main className="relative overflow-x-clip h-full">
+    <main id="main-content" className="relative overflow-x-clip h-full">
       <Background />
       <ParticleBackground />
       <NavigationBar navigationLinks={navigationLinks!} />
-      {homepageLayout!.map((section) => {
+      {homepageLayout!.map((section, index) => {
+        const key = section.id || section.blockName || index
         switch (section.blockName) {
           case 'introduction':
-            return <Hero component={section} socialLinks={socialLinks} resumeLink={resumeLink!} />
+            return (
+              <Hero
+                key={key}
+                component={section}
+                socialLinks={socialLinks}
+                resumeLink={resumeLink!}
+              />
+            )
           case 'about-me':
-            return <AboutMe component={section} />
+            return <AboutMe key={key} component={section} />
           case 'featured-projects':
-            return <FeaturedProjects component={section} />
+            return <FeaturedProjects key={key} component={section} />
           case 'other-projects':
-            return <OtherProjects component={section} />
+            return <OtherProjects key={key} component={section} />
         }
       })}
       <Contact email={email!} />

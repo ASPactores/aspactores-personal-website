@@ -20,11 +20,13 @@ export default function ParticleBackground() {
 
   return (
     init && (
-      <Particles
-        id="tsparticles"
-        options={particleConfig as RecursivePartial<IOptions>}
-        className="absolute -z-10 w-full h-full top 0"
-      />
+      <div aria-hidden="true" className="pointer-events-none">
+        <Particles
+          id="tsparticles"
+          options={particleConfig as RecursivePartial<IOptions>}
+          className="absolute -z-10 w-full h-full top-0 left-0"
+        />
+      </div>
     )
   )
 }

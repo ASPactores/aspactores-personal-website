@@ -26,28 +26,28 @@ export default function InfoCard({
 }: InfoCardDetailsProps) {
   return (
     <div
-      className={`relative w-full min-h-72 max-w-[90%]  flex flex-col items-center justify-center bg-secondary-950 rounded-7 mx-auto hover:drop-shadow-primary-active ${className}`}
+      className={`relative w-full h-full flex flex-col bg-secondary-950 border border-secondary-800/70 rounded-7 mx-auto transition-all duration-200 ease-out hover:-translate-y-1 hover:border-accent-500/40 hover:shadow-xl hover:shadow-accent-500/10 group ${className}`}
     >
       {image && (
-        <div className="w-full h-[250px] relative hover:drop-shadow-primary-active transition-all duration-300 content-center group">
-          <div className="absolute inset-0 bg-accent-900 opacity-50 z-10 group-hover:opacity-0 transition-opacity duration-300 hover:cursor-pointer"></div>
+        <div className="w-full h-[200px] sm:h-[250px] relative overflow-hidden rounded-t-7 flex-shrink-0">
+          <div className="absolute inset-0 bg-accent-950/50 opacity-60 z-10 group-hover:opacity-0 transition-opacity duration-200 ease-out pointer-events-none"></div>
           <Image
             src={image.url!}
-            alt="Project Name"
-            className="rounded-t-7 object-cover"
+            alt={`${projectName} screenshot`}
+            className="rounded-t-7 object-cover transition-transform duration-300 ease-out group-hover:scale-105"
             fill
             priority={true}
           />
         </div>
       )}
-      <div className="flex flex-col items-start justify-center p-8 space-y-3 w-full">
-        <p className="text-secondary-50 text-lg font-semibold">{projectName}</p>
-        <div className="text-secondary-50 text-left text-sm min-h-20">
+      <div className="flex flex-col flex-1 p-6 sm:p-7 space-y-3 w-full">
+        <h3 className="text-secondary-50 text-lg font-semibold">{projectName}</h3>
+        <div className="text-secondary-50 text-left text-sm leading-relaxed flex-1">
           <PayloadLexicalReact
             content={description!}
             mark={(mark) => {
               if (mark.bold) {
-                return <span className="font-semibold text-accent-600">{mark.text}</span>
+                return <span className="font-semibold text-accent-400">{mark.text}</span>
               }
 
               if (mark.italic) {
@@ -58,30 +58,45 @@ export default function InfoCard({
             }}
           />
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 pt-2">
           {technologies.map((tech) => (
             <Badge
               variant="secondary"
-              className="bg-secondary-800 border-secondary-800 text-secondary-200 hover:bg-secondary-800"
+              className="bg-secondary-800 border-secondary-800 text-secondary-200 hover:bg-secondary-700 transition-colors duration-150 text-xs"
               key={tech.id}
             >
               {tech.name}
             </Badge>
           ))}
         </div>
-        <div className="flex items-center justify-between w-full text-sm text-secondary-50 font-semibold pt-5">
-          {previewLink !== '' && (
-            <Button className="bg-accent-700 hover:bg-accent-800 w-1/2">
-              <a href={previewLink} target="_blank">
+        <div className="flex items-center justify-between w-full text-sm text-secondary-50 font-semibold pt-6 mt-auto">
+          {previewLink && previewLink !== '' ? (
+            <Button asChild className="bg-accent-700 hover:bg-accent-600 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-150 ease-out w-1/2">
+              <a
+                href={previewLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`View live preview of ${projectName}`}
+              >
                 Preview
               </a>
             </Button>
+          ) : (
+            <div />
           )}
-          <p className="underline text-center">
-            <a href={githubLink} target="_blank">
-              Github Repository
-            </a>
-          </p>
+          {githubLink && (
+            <p className="underline text-center">
+              <a
+                href={githubLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`View GitHub repository for ${projectName}`}
+                className="hover:text-accent-300 transition-colors duration-150"
+              >
+                Github Repository
+              </a>
+            </p>
+          )}
         </div>
       </div>
     </div>

@@ -18,10 +18,10 @@ export default function OtherProjects({ component }: any) {
   return (
     <section
       id="other-projects"
-      className="flex flex-col items-center justify-center w-full h-full py-36"
+      className="flex flex-col items-center justify-center w-full h-full py-24 sm:py-36 px-4"
     >
-      <p className="text-2xl md:text-4xl font-semibold text-primary-50 mb-11">Other Projects</p>
-      <div className="flex flex-col md:flex-wrap items-center justify-center md:flex-row md:w-full lg:w-[70%] gap-6">
+      <h2 className="text-2xl md:text-4xl font-semibold text-primary-50 mb-11">Other Projects</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 w-full max-w-5xl items-stretch">
         {projects.map((project, index) => {
           const {
             ['project-name']: projectName,
@@ -33,10 +33,10 @@ export default function OtherProjects({ component }: any) {
           } = project
           return (
             <RevealOnScroll
-              delay={index * 0.3}
               key={index}
+              delay={(index % 2) * 0.08}
               direction="bottom"
-              className="flex items-center justify-center"
+              className="h-full w-full flex flex-col"
             >
               <InfoCard
                 projectName={projectName}
@@ -45,7 +45,7 @@ export default function OtherProjects({ component }: any) {
                 technologies={technologies}
                 githubLink={githubLink}
                 previewLink={previewLink}
-                className="w-full lg:max-w-96 sm:my-5"
+                className="w-full h-full"
               />
             </RevealOnScroll>
           )

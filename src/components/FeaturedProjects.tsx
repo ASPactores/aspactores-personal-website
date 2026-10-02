@@ -3,8 +3,6 @@
 import Image from 'next/image'
 import { Badge } from '@/components/ui/badge'
 import { RevealOnScroll } from './Animations'
-import { Button } from './ui/button'
-import { useMediaQuery } from '@/hooks/use-media-query'
 import { Technology, Media } from '@/payload-types'
 import { PayloadLexicalReact } from '@zapal/payload-lexical-react'
 
@@ -34,25 +32,25 @@ export function RightAligned({
 }: ProjectDetailsProps) {
   return (
     <div className={`relative w-full h-full flex items-center justify-center ${className}`}>
-      <div className="w-[420px] h-[250px] relative z-0 hover:drop-shadow-primary-active transition-all duration-300 content-center group">
-        <div className="absolute translate-x-14 inset-0 bg-accent-900 opacity-50 z-10 group-hover:opacity-0 transition-opacity duration-300 hover:cursor-pointer"></div>
+      <div className="w-[420px] lg:w-[480px] h-[260px] lg:h-[300px] relative z-0 translate-x-8 xl:translate-x-14 rounded-8 overflow-hidden shadow-2xl shadow-primary-950/80 border border-secondary-800/40 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-accent-500/20 group">
+        <div className="absolute inset-0 bg-accent-950/40 opacity-50 z-10 group-hover:opacity-0 transition-opacity duration-300 ease-out pointer-events-none"></div>
         <Image
           src={image.url!}
-          alt="Project Name"
-          className="z-0 translate-x-14 object-cover"
+          alt={`${projectName} preview`}
+          className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
           fill
           priority={true}
         />
       </div>
-      <div className="flex flex-col items-end justify-center relative z-10 bg-opacity-50 bg-black p-4 -translate-x-14 space-y-3">
-        <p className="text-white text-xl font-semibold text-accent-50">{projectName}</p>
-        <div className="bg-secondary-950/75 p-5 rounded-8 w-[33rem] text-accent-50 text-sm flex flex-col items-end">
+      <div className="flex flex-col items-end justify-center relative z-10 -translate-x-8 xl:-translate-x-14 space-y-3">
+        <h3 className="text-xl font-semibold text-accent-50">{projectName}</h3>
+        <div className="bg-secondary-950/85 backdrop-blur-sm border border-secondary-800/60 p-5 rounded-8 w-[33rem] text-accent-50 text-sm flex flex-col items-end transition-colors duration-200 hover:border-accent-500/40">
           <div className="text-left text-sm">
             <PayloadLexicalReact
               content={description!}
               mark={(mark) => {
                 if (mark.bold) {
-                  return <span className="font-semibold text-accent-600">{mark.text}</span>
+                  return <span className="font-semibold text-accent-400">{mark.text}</span>
                 }
 
                 if (mark.italic) {
@@ -67,7 +65,7 @@ export function RightAligned({
             {technologies.map((tech) => (
               <Badge
                 variant="secondary"
-                className="bg-accent-800 border-accent-800 text-secondary-200 hover:bg-accent-900"
+                className="bg-accent-800 border-accent-800 text-secondary-200 hover:bg-accent-700 transition-colors duration-150"
                 key={tech.id}
               >
                 {tech.name}
@@ -75,17 +73,33 @@ export function RightAligned({
             ))}
           </div>
         </div>
-        <div className="flex items-center justify-end gap-4 text-sm text-primary-50 underline italic">
-          <p>
-            <a href={githubLink} target="_blank">
-              Github Repo
-            </a>
-          </p>
-          <p>
-            <a href={previewLink} target="_blank">
-              Preview
-            </a>
-          </p>
+        <div className="flex items-center justify-end gap-5 text-sm text-primary-50 underline italic">
+          {githubLink && (
+            <p>
+              <a
+                href={githubLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`View GitHub repository for ${projectName}`}
+                className="hover:text-accent-300 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 rounded-sm"
+              >
+                Github Repo
+              </a>
+            </p>
+          )}
+          {previewLink && (
+            <p>
+              <a
+                href={previewLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`View live preview of ${projectName}`}
+                className="hover:text-accent-300 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 rounded-sm"
+              >
+                Preview
+              </a>
+            </p>
+          )}
         </div>
       </div>
     </div>
@@ -103,15 +117,15 @@ export function LeftAligned({
 }: ProjectDetailsProps) {
   return (
     <div className={`relative w-full h-full flex items-center justify-center ${className}`}>
-      <div className="flex flex-col items-start justify-center relative z-10 bg-opacity-50 bg-black p-4 translate-x-14 space-y-3">
-        <p className="text-white text-xl font-semibold text-accent-50">{projectName}</p>
-        <div className="bg-secondary-950/75 p-5 rounded-8 w-[33rem] text-accent-50 text-sm flex flex-col items-start">
+      <div className="flex flex-col items-start justify-center relative z-10 translate-x-8 xl:translate-x-14 space-y-3">
+        <h3 className="text-xl font-semibold text-accent-50">{projectName}</h3>
+        <div className="bg-secondary-950/85 backdrop-blur-sm border border-secondary-800/60 p-5 rounded-8 w-[33rem] text-accent-50 text-sm flex flex-col items-start transition-colors duration-200 hover:border-accent-500/40">
           <div className="text-left text-sm">
             <PayloadLexicalReact
               content={description!}
               mark={(mark) => {
                 if (mark.bold) {
-                  return <span className="font-semibold text-accent-600">{mark.text}</span>
+                  return <span className="font-semibold text-accent-400">{mark.text}</span>
                 }
 
                 if (mark.italic) {
@@ -126,7 +140,7 @@ export function LeftAligned({
             {technologies.map((tech) => (
               <Badge
                 variant="secondary"
-                className="bg-accent-800 border-accent-800 text-secondary-200 hover:bg-accent-900"
+                className="bg-accent-800 border-accent-800 text-secondary-200 hover:bg-accent-700 transition-colors duration-150"
                 key={tech.id}
               >
                 {tech.name}
@@ -134,25 +148,41 @@ export function LeftAligned({
             ))}
           </div>
         </div>
-        <div className="flex items-center justify-end gap-4 text-sm text-primary-50 underline italic">
-          <p>
-            <a href={githubLink} target="_blank">
-              Github Repo
-            </a>
-          </p>
-          <p>
-            <a href={previewLink} target="_blank">
-              Preview
-            </a>
-          </p>
+        <div className="flex items-center justify-end gap-5 text-sm text-primary-50 underline italic">
+          {githubLink && (
+            <p>
+              <a
+                href={githubLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`View GitHub repository for ${projectName}`}
+                className="hover:text-accent-300 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 rounded-sm"
+              >
+                Github Repo
+              </a>
+            </p>
+          )}
+          {previewLink && (
+            <p>
+              <a
+                href={previewLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`View live preview of ${projectName}`}
+                className="hover:text-accent-300 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 rounded-sm"
+              >
+                Preview
+              </a>
+            </p>
+          )}
         </div>
       </div>
-      <div className="w-[420px] h-[250px] relative z-0 hover:drop-shadow-primary-active transition-all duration-300 content-center group">
-        <div className="absolute -translate-x-14 inset-0 bg-accent-900 opacity-50 z-10 group-hover:opacity-0 transition-opacity duration-300 hover:cursor-pointer"></div>
+      <div className="w-[420px] lg:w-[480px] h-[260px] lg:h-[300px] relative z-0 -translate-x-8 xl:-translate-x-14 rounded-8 overflow-hidden shadow-2xl shadow-primary-950/80 border border-secondary-800/40 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-accent-500/20 group">
+        <div className="absolute inset-0 bg-accent-950/40 opacity-50 z-10 group-hover:opacity-0 transition-opacity duration-300 ease-out pointer-events-none"></div>
         <Image
           src={image.url!}
-          alt="Project Name"
-          className="z-0 -translate-x-14 object-cover"
+          alt={`${projectName} preview`}
+          className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
           fill
           priority={true}
         />
@@ -184,46 +214,44 @@ export function MobileView({
 }
 
 export default function FeaturedProjects({ component }: any) {
-  const isMediumScreen = useMediaQuery('(min-width: 980px)')
   const projects = component.Components[0].component as ProjectDetails[]
 
   return (
     <section
       id="projects"
-      className="flex flex-col items-center justify-center w-full h-full py-36"
+      className="flex flex-col items-center justify-center w-full h-full py-24 sm:py-36 px-4"
     >
-      <p className="text-2xl md:text-4xl font-semibold text-primary-50 mb-11">Featured Projects</p>
-      {isMediumScreen ? (
-        <div className="space-y-28">
-          {projects.map((project, index) => (
-            <RevealOnScroll
-              delay={index * 0.3}
-              key={index}
-              direction="bottom"
-              className="flex flex-col items-center justify-center w-full"
-            >
-              <div key={index}>
-                {index % 2 === 0 ? <RightAligned {...project} /> : <LeftAligned {...project} />}
-              </div>
-            </RevealOnScroll>
-          ))}
-        </div>
-      ) : (
-        <div className="space-y-10 flex flex-col items-center justify-center w-full">
-          {projects.map((project, index) => (
-            <RevealOnScroll
-              delay={index * 0.3}
-              key={index}
-              direction="bottom"
-              className="flex flex-col items-center justify-center w-full"
-            >
-              <div key={index}>
-                <MobileView {...project} />
-              </div>
-            </RevealOnScroll>
-          ))}
-        </div>
-      )}
+      <h2 className="text-2xl md:text-4xl font-semibold text-primary-50 mb-11">Featured Projects</h2>
+      
+      {/* Desktop view */}
+      <div className="hidden lg:block space-y-28 w-full max-w-5xl">
+        {projects.map((project, index) => (
+          <RevealOnScroll
+            key={index}
+            direction="bottom"
+            className="flex flex-col items-center justify-center w-full"
+          >
+            <div>
+              {index % 2 === 0 ? <RightAligned {...project} /> : <LeftAligned {...project} />}
+            </div>
+          </RevealOnScroll>
+        ))}
+      </div>
+
+      {/* Mobile/Tablet view */}
+      <div className="lg:hidden space-y-10 flex flex-col items-center justify-center w-full max-w-lg">
+        {projects.map((project, index) => (
+          <RevealOnScroll
+            key={index}
+            direction="bottom"
+            className="flex flex-col items-center justify-center w-full"
+          >
+            <div className="w-full">
+              <MobileView {...project} />
+            </div>
+          </RevealOnScroll>
+        ))}
+      </div>
     </section>
   )
 }
