@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTr
 import Link from 'next/link'
 import Image from 'next/image'
 import { Links } from '@/types'
+import ThemeToggle from './ThemeToggle'
 
 export default function NavigationBar({ navigationLinks }: { navigationLinks: Links }) {
   const [open, setOpen] = useState(false)
@@ -56,7 +57,7 @@ export default function NavigationBar({ navigationLinks }: { navigationLinks: Li
       </FadeOnLoad>
 
       {/* Desktop Navigation */}
-      <div className="hidden lg:flex text-sm space-x-8">
+      <div className="hidden lg:flex items-center space-x-8 text-sm">
         <RevealOneByOne delay={0.08}>
           {navigationLinks.map((link) => (
             <p key={link.title} className="text-primary-100 hover:text-accent-400 hover:-translate-y-0.5 transition-all duration-150 ease-out">
@@ -64,10 +65,12 @@ export default function NavigationBar({ navigationLinks }: { navigationLinks: Li
             </p>
           ))}
         </RevealOneByOne>
+        <ThemeToggle />
       </div>
 
       {/* Mobile Navigation Drawer */}
-      <div className="lg:hidden">
+      <div className="lg:hidden flex items-center gap-3">
+        <ThemeToggle />
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger
             aria-label="Open navigation menu"

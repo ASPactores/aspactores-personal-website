@@ -18,7 +18,7 @@ export default function Contact({ email }: { email: string }) {
           <a
             href={`mailto:${email}`}
             aria-label={`Send email to ${email}`}
-            className="hover:text-accent-300 hover:drop-shadow-[0_0_10px_rgba(32,231,190,0.5)] transition-all duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 rounded-sm inline-block"
+            className="hover:text-accent-300 hover:drop-shadow-[0_0_12px_rgba(8,145,178,0.45)] dark:hover:drop-shadow-[0_0_10px_rgba(32,231,190,0.5)] transition-all duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 rounded-sm inline-block"
           >
             {email}
           </a>

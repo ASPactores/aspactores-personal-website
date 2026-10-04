@@ -32,7 +32,7 @@ export function RightAligned({
 }: ProjectDetailsProps) {
   return (
     <div className={`relative w-full h-full flex items-center justify-center ${className}`}>
-      <div className="w-[420px] lg:w-[480px] h-[260px] lg:h-[300px] relative z-0 translate-x-8 xl:translate-x-14 rounded-8 overflow-hidden shadow-2xl shadow-primary-950/80 border border-secondary-800/40 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-accent-500/20 group">
+      <div className="w-[420px] lg:w-[480px] h-[260px] lg:h-[300px] relative z-0 translate-x-8 xl:translate-x-14 rounded-8 overflow-hidden shadow-2xl dark:shadow-primary-950/80 shadow-stone-900/10 border border-secondary-800/40 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-accent-500/20 group">
         <div className="absolute inset-0 bg-accent-950/40 opacity-50 z-10 group-hover:opacity-0 transition-opacity duration-300 ease-out pointer-events-none"></div>
         <Image
           src={image.url!}
@@ -43,8 +43,8 @@ export function RightAligned({
         />
       </div>
       <div className="flex flex-col items-end justify-center relative z-10 -translate-x-8 xl:-translate-x-14 space-y-3">
-        <h3 className="text-xl font-semibold text-accent-50">{projectName}</h3>
-        <div className="bg-secondary-950/85 backdrop-blur-sm border border-secondary-800/60 p-5 rounded-8 w-[33rem] text-accent-50 text-sm flex flex-col items-end transition-colors duration-200 hover:border-accent-500/40">
+        <h3 className="text-xl font-semibold text-secondary-50">{projectName}</h3>
+        <div className="bg-secondary-950/95 dark:bg-secondary-950/85 backdrop-blur-sm border border-secondary-800/60 p-5 rounded-8 w-[33rem] text-secondary-50 text-sm flex flex-col items-end transition-colors duration-200 hover:border-accent-500/40 shadow-xl dark:shadow-none">
           <div className="text-left text-sm">
             <PayloadLexicalReact
               content={description!}
@@ -65,7 +65,7 @@ export function RightAligned({
             {technologies.map((tech) => (
               <Badge
                 variant="secondary"
-                className="bg-accent-800 border-accent-800 text-secondary-200 hover:bg-accent-700 transition-colors duration-150"
+                className="bg-accent-800 border-accent-800/60 text-accent-700 dark:text-secondary-200 hover:bg-accent-700/20 dark:hover:bg-accent-700 transition-colors duration-150"
                 key={tech.id}
               >
                 {tech.name}
@@ -118,8 +118,8 @@ export function LeftAligned({
   return (
     <div className={`relative w-full h-full flex items-center justify-center ${className}`}>
       <div className="flex flex-col items-start justify-center relative z-10 translate-x-8 xl:translate-x-14 space-y-3">
-        <h3 className="text-xl font-semibold text-accent-50">{projectName}</h3>
-        <div className="bg-secondary-950/85 backdrop-blur-sm border border-secondary-800/60 p-5 rounded-8 w-[33rem] text-accent-50 text-sm flex flex-col items-start transition-colors duration-200 hover:border-accent-500/40">
+        <h3 className="text-xl font-semibold text-secondary-50">{projectName}</h3>
+        <div className="bg-secondary-950/95 dark:bg-secondary-950/85 backdrop-blur-sm border border-secondary-800/60 p-5 rounded-8 w-[33rem] text-secondary-50 text-sm flex flex-col items-start transition-colors duration-200 hover:border-accent-500/40 shadow-xl dark:shadow-none">
           <div className="text-left text-sm">
             <PayloadLexicalReact
               content={description!}
@@ -140,7 +140,7 @@ export function LeftAligned({
             {technologies.map((tech) => (
               <Badge
                 variant="secondary"
-                className="bg-accent-800 border-accent-800 text-secondary-200 hover:bg-accent-700 transition-colors duration-150"
+                className="bg-accent-800 border-accent-800/60 text-accent-700 dark:text-secondary-200 hover:bg-accent-700/20 dark:hover:bg-accent-700 transition-colors duration-150"
                 key={tech.id}
               >
                 {tech.name}
@@ -177,7 +177,7 @@ export function LeftAligned({
           )}
         </div>
       </div>
-      <div className="w-[420px] lg:w-[480px] h-[260px] lg:h-[300px] relative z-0 -translate-x-8 xl:-translate-x-14 rounded-8 overflow-hidden shadow-2xl shadow-primary-950/80 border border-secondary-800/40 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-accent-500/20 group">
+      <div className="w-[420px] lg:w-[480px] h-[260px] lg:h-[300px] relative z-0 -translate-x-8 xl:-translate-x-14 rounded-8 overflow-hidden shadow-2xl dark:shadow-primary-950/80 shadow-stone-900/10 border border-secondary-800/40 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-accent-500/20 group">
         <div className="absolute inset-0 bg-accent-950/40 opacity-50 z-10 group-hover:opacity-0 transition-opacity duration-300 ease-out pointer-events-none"></div>
         <Image
           src={image.url!}

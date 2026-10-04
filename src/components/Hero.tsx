@@ -88,7 +88,7 @@ export default function Hero({ component, socialLinks, resumeLink }: HeroProps) 
         <RevealOnLoad delay={1.3} className="w-full flex justify-start md:justify-center">
           <Button
             asChild
-            className="bg-accent-900 px-6 py-5 text-base border border-accent-700/50 shadow-md shadow-accent-950/50 hover:bg-accent-800 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent-500/20 active:translate-y-0 active:scale-[0.98] transition-all duration-150 ease-out focus-visible:ring-2 focus-visible:ring-accent-400"
+            className="bg-accent-900 text-white px-6 py-5 text-base border border-accent-700/50 shadow-md shadow-accent-950/50 hover:bg-accent-800 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent-500/20 active:translate-y-0 active:scale-[0.98] transition-all duration-150 ease-out focus-visible:ring-2 focus-visible:ring-accent-400"
           >
             <a href={resumeLink} target="_blank" rel="noopener noreferrer" aria-label="View Anakin's Resume">
               View Resume

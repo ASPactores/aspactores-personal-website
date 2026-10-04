@@ -52,7 +52,7 @@ export default function AboutMe({ component }: any) {
                 }}
               />
             </div>
-            <div className="relative w-48 sm:w-52 aspect-square group transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-xl hover:shadow-accent-500/10 rounded-8 content-center">
+            <div className="relative w-48 sm:w-52 aspect-square group transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-xl hover:shadow-accent-500/10 rounded-8 content-center shadow-lg dark:shadow-none border border-secondary-800/60 dark:border-transparent">
               <div className="absolute inset-0 bg-accent-950/60 opacity-50 rounded-8 z-10 group-hover:opacity-0 transition-opacity duration-200 ease-out pointer-events-none"></div>
               <Image
                 src={profile_photo.url!}
