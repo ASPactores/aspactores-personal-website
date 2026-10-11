@@ -1,19 +1,30 @@
 import type { Links, NavigationLink, SectionComponent } from '@/types'
 
+const ensureProtocol = (url?: string): string => {
+  if (!url) return ''
+  const trimmed = url.trim()
+  if (!trimmed) return ''
+  if (/^https?:\/\//i.test(trimmed)) return trimmed
+  return `https://${trimmed}`
+}
+
 const getCmsUrl = (): string => {
+  let raw = ''
   if (typeof process !== 'undefined' && process.env) {
-    if (process.env.CMS_URL) return process.env.CMS_URL
-    if (process.env.PUBLIC_CMS_URL) return process.env.PUBLIC_CMS_URL
-    if (process.env.PAYLOAD_URL) return process.env.PAYLOAD_URL
-    if (process.env.NEXT_PUBLIC_CMS_URL) return process.env.NEXT_PUBLIC_CMS_URL
+    raw =
+      process.env.CMS_URL ||
+      process.env.PUBLIC_CMS_URL ||
+      process.env.PAYLOAD_URL ||
+      process.env.NEXT_PUBLIC_CMS_URL ||
+      ''
   }
-  try {
-    const env = (import.meta as any).env
-    if (env?.PUBLIC_CMS_URL) return env.PUBLIC_CMS_URL
-    if (env?.CMS_URL) return env.CMS_URL
-    if (env?.PAYLOAD_URL) return env.PAYLOAD_URL
-  } catch {}
-  return 'http://localhost:3000'
+  if (!raw) {
+    try {
+      const env = (import.meta as any).env
+      raw = env?.PUBLIC_CMS_URL || env?.CMS_URL || env?.PAYLOAD_URL || ''
+    } catch {}
+  }
+  return ensureProtocol(raw) || 'http://localhost:3000'
 }
 
 export const CMS_URL: string = getCmsUrl()
