@@ -1,4 +1,4 @@
-import { authenticatedUser } from '../access/authenticatedUser'
+import { authenticatedUser } from '@/payload/access/authenticatedUser'
 import { RichText } from '@/payload/blocks/RichText'
 import { Group } from '@/payload/blocks/Group'
 import type { CollectionConfig } from 'payload'

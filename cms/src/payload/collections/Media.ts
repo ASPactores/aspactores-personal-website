@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { authenticatedUser } from '../access/authenticatedUser'
+import { authenticatedUser } from '@/payload/access/authenticatedUser'
 
 export const Media: CollectionConfig = {
   slug: 'media',
