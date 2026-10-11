@@ -20,12 +20,14 @@ jobs:
     name: Build & Deploy Portfolio
     runs-on: ubuntu-latest
     environment: portfolio-release
+    env:
+      AWS_CI_ROLE_ARN: ${{ secrets.AWS_CI_ROLE_ARN }}
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
       - name: Authenticate to AWS via OIDC Role
-        if: ${{ secrets.AWS_CI_ROLE_ARN }}
+        if: env.AWS_CI_ROLE_ARN != ''
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_CI_ROLE_ARN }}
@@ -33,7 +35,7 @@ jobs:
           role-duration-seconds: 1800
 
       - name: Authenticate to AWS via Access Keys
-        if: ${{ !secrets.AWS_CI_ROLE_ARN }}
+        if: env.AWS_CI_ROLE_ARN == ''
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
