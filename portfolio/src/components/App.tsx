@@ -1,4 +1,3 @@
-import React from 'react'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import Background from '@/components/Background'
 import ParticleBackground from '@/components/ParticleBackground'
