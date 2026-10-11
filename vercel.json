@@ -3,6 +3,6 @@
   "buildCommand": "npm run build:cms",
   "outputDirectory": "cms/.next",
   "installCommand": "npm install --legacy-peer-deps --no-audit --no-fund",
-  "ignoreCommand": "git diff ${VERCEL_GIT_PREVIOUS_SHA:-HEAD^} HEAD --quiet -- cms"
+  "ignoreCommand": "if [ -n \"$VERCEL_GIT_PREVIOUS_SHA\" ] && git cat-file -e \"$VERCEL_GIT_PREVIOUS_SHA\" 2>/dev/null; then git diff \"$VERCEL_GIT_PREVIOUS_SHA\" HEAD --quiet -- cms; elif git cat-file -e HEAD^ 2>/dev/null; then git diff HEAD^ HEAD --quiet -- cms; else exit 1; fi"
 }
 

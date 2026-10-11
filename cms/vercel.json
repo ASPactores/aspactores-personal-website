@@ -2,6 +2,6 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
   "installCommand": "npm install --legacy-peer-deps --no-audit --no-fund",
-  "ignoreCommand": "git diff ${VERCEL_GIT_PREVIOUS_SHA:-HEAD^} HEAD --quiet -- ."
+  "ignoreCommand": "if [ -n \"$VERCEL_GIT_PREVIOUS_SHA\" ] && git cat-file -e \"$VERCEL_GIT_PREVIOUS_SHA\" 2>/dev/null; then git diff \"$VERCEL_GIT_PREVIOUS_SHA\" HEAD --quiet -- .; elif git cat-file -e HEAD^ 2>/dev/null; then git diff HEAD^ HEAD --quiet -- .; else exit 1; fi"
 }
 
