@@ -1,0 +1,19 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import App from '@/components/App'
+import { getLinks, getNavigationLinks, getHomePageLayout } from '@/lib/cms'
+
+const links = await getLinks()
+const navigationLinks = await getNavigationLinks()
+const homepageLayout = await getHomePageLayout()
+---
+
+<Layout>
+  <App
+    client:load
+    links={links}
+    navigationLinks={navigationLinks}
+    homepageLayout={homepageLayout}
+  />
+</Layout>
+

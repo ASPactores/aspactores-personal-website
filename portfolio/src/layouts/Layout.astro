@@ -1,0 +1,119 @@
+---
+import '@/styles/globals.css'
+
+interface Props {
+  title?: string
+  description?: string
+  image?: string
+}
+
+const {
+  title = 'Anakin Skywalker Pactores | Full-stack Developer & Data Engineer',
+  description = 'Personal portfolio of Anakin Skywalker Pactores — Full-stack Developer and Data Engineer. Specializing in modern web applications, scalable data pipelines, Next.js, React, TypeScript, and Python.',
+  image = '/logo.webp',
+} = Astro.props
+
+const siteUrl = (
+  import.meta.env?.SITE_URL ||
+  import.meta.env?.PUBLIC_SITE_URL ||
+  import.meta.env?.SITE ||
+  (typeof process !== 'undefined' ? process.env?.SITE_URL || process.env?.PUBLIC_SITE_URL : '') ||
+  ''
+).replace(/\/$/, '')
+const canonicalURL = siteUrl ? new URL(Astro.url.pathname, siteUrl) : Astro.url
+const ogImageURL = siteUrl ? new URL(image, siteUrl) : new URL(image, Astro.url)
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': `${siteUrl}/#person`,
+      name: 'Anakin Skywalker Pactores',
+      alternateName: 'Anakin Pactores',
+      url: siteUrl,
+      image: `${siteUrl}/logo.webp`,
+      jobTitle: ['Full-stack Developer', 'Data Engineer'],
+      sameAs: [
+        'https://github.com/ASPactores',
+        'https://www.linkedin.com/in/aspactores/',
+        'https://www.facebook.com/aspactores/',
+      ],
+      description:
+        'Full-stack Developer and Data Engineer specializing in modern web applications and scalable data pipelines.',
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${siteUrl}/#website`,
+      url: siteUrl,
+      name: 'Anakin Skywalker Pactores Portfolio',
+      publisher: {
+        '@id': `${siteUrl}/#person`,
+      },
+    },
+  ],
+}
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f172a" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#effafc" />
+    
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Anakin Skywalker Pactores" />
+    <meta name="creator" content="Anakin Skywalker Pactores" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:site_name" content="Anakin Skywalker Pactores Portfolio" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+
+    <script is:inline>
+      (function () {
+        try {
+          var saved = localStorage.getItem('theme');
+          var isDark = saved ? saved === 'dark' : true;
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+          } else {
+            document.documentElement.classList.add('light');
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body class="bg-primary-950 text-primary-50 transition-colors duration-200">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent-700 focus:text-white focus:rounded-md focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-accent-400"
+    >
+      Skip to main content
+    </a>
+    <slot />
+  </body>
+</html>
+

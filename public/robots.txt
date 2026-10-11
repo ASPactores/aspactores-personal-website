@@ -1,9 +1,0 @@
-# Allow search engines to crawl all public pages and assets
-User-agent: *
-Allow: /
-Disallow: /admin/
-Disallow: /api/
-
-# Host & Sitemap
-Host: https://anakinpactores.me
-Sitemap: https://anakinpactores.me/sitemap.xml
