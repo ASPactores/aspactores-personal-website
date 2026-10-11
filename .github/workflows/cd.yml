@@ -1,0 +1,87 @@
+name: Release CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  repository_dispatch:
+    types: [rebuild-portfolio]
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  ASTRO_TELEMETRY_DISABLED: 1
+
+jobs:
+  deploy:
+    name: Build & Deploy Portfolio
+    runs-on: ubuntu-latest
+    environment: portfolio-release
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to AWS via OIDC Role
+        if: ${{ secrets.AWS_CI_ROLE_ARN }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_CI_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION || vars.AWS_REGION || 'ap-southeast-1' }}
+
+      - name: Authenticate to AWS via Access Keys
+        if: ${{ !secrets.AWS_CI_ROLE_ARN }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION || vars.AWS_REGION || 'ap-southeast-1' }}
+
+      - name: Set up Bun Environment
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Project Dependencies
+        run: |
+          bun install --frozen-lockfile || bun install
+
+      - name: Build Astro Static Site
+        run: |
+          cd portfolio
+          bun run build
+        env:
+          CMS_URL: ${{ secrets.CMS_URL || vars.CMS_URL }}
+          PUBLIC_CMS_URL: ${{ secrets.CMS_URL || vars.CMS_URL }}
+          PAYLOAD_API_KEY: ${{ secrets.PAYLOAD_API_KEY }}
+          SITE_URL: ${{ secrets.SITE_URL || vars.SITE_URL }}
+          PUBLIC_SITE_URL: ${{ secrets.SITE_URL || vars.SITE_URL }}
+          ASTRO_TELEMETRY_DISABLED: 1
+
+      - name: Sync Hashed Static Assets to S3 (Immutable Cache)
+        run: |
+          aws s3 sync portfolio/dist/_astro s3://${{ secrets.S3_BUCKET }}/_astro \
+            --delete \
+            --cache-control "public, max-age=31536000, immutable"
+
+      - name: Sync Root Files & HTML to S3 (Immediate Revalidation)
+        run: |
+          aws s3 sync portfolio/dist s3://${{ secrets.S3_BUCKET }} \
+            --delete \
+            --exclude "_astro/*" \
+            --cache-control "public, max-age=0, must-revalidate"
+
+      - name: Invalidate CloudFront Cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --paths "/*"
+
+      - name: Summarize Deployment
+        if: always()
+        run: |
+          echo "### 🚢 Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- **Target Environment**: \`portfolio-release\`" >> $GITHUB_STEP_SUMMARY
+

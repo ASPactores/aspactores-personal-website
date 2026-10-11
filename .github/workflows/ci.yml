@@ -1,0 +1,81 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - '**'
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+  security-events: write
+
+env:
+  ASTRO_TELEMETRY_DISABLED: 1
+
+jobs:
+  validate:
+    name: Validation & Security
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Set up Bun Environment
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Project Dependencies
+        run: |
+          npm ci || npm install
+          bun install --frozen-lockfile || bun install
+
+      - name: Static Analysis (NPM Vulnerability Scan)
+        uses: aquasecurity/trivy-action@a9c7b0f06e461e9d4b4d1711f154ee024b8d7ab8 # v0.36.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+          skip-files: '.env,cms/.env,portfolio/.env'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+      - name: Lint Codebase
+        run: |
+          cd cms && npm run lint
+
+      - name: Typecheck Workspaces
+        run: |
+          (cd cms && npx tsc --noEmit)
+          (cd portfolio && npx tsc --noEmit)
+
+      - name: Diagnostics & Code Check
+        run: |
+          cd portfolio && (bun run check || npx astro check)
+
+      - name: Run Build Validation
+        run: |
+          cd cms && npm run build
+          cd ../portfolio && bun run build
+        env:
+          DATABASE_URI: postgres://postgres:ci-mock@127.0.0.1:5432/mock
+          PAYLOAD_SECRET: ci-mock-secret-placeholder-minimum-32-chars
+          BLOB_READ_WRITE_TOKEN: ci-mock-blob-token
+          SITE_URL: https://example.com
+          PUBLIC_SITE_URL: https://example.com
+          CMS_URL: http://localhost:3000
+          PUBLIC_CMS_URL: http://localhost:3000
